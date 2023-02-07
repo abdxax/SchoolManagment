@@ -40,6 +40,18 @@ public class TeacherController {
         }
         return ResponseEntity.status(200).body("delete done");
     }
-
+    @PutMapping("{teacherId}/subject/{subjectId}")
+    public ResponseEntity assignTeacher(@PathVariable Integer teacherId,@PathVariable Integer subjectId){
+        Boolean res=teacherSerives.assingSubjectToTeacher(teacherId,subjectId);
+        if(!res){
+            return ResponseEntity.status(400).body("The Id is not correct ");
+        }
+        return ResponseEntity.status(200).body("assign is done");
+    }
+    @GetMapping("/getTeacher/{id}")
+    public ResponseEntity getTeacher(@PathVariable Integer id){
+        Teacher teacher=teacherSerives.teacher(id);
+        return ResponseEntity.status(200).body(teacher);
+    }
 
 }
