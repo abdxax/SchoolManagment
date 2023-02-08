@@ -1,13 +1,17 @@
 package com.example.schoolmanagement.service;
 
+import com.example.schoolmanagement.DTO.StudentDTO;
 import com.example.schoolmanagement.handking.ApiException;
+import com.example.schoolmanagement.model.Student;
 import com.example.schoolmanagement.model.Subject;
 import com.example.schoolmanagement.model.Teacher;
+import com.example.schoolmanagement.repositry.StudentRespotry;
 import com.example.schoolmanagement.repositry.SubjectResptory;
 import com.example.schoolmanagement.repositry.TeacherRespoitry;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +19,7 @@ import java.util.List;
 public class SubjectService {
     private final SubjectResptory subjectResptory;
     private final TeacherRespoitry teacherRespoitry;
+    private final StudentRespotry studentRespotry;
 
     public List<Subject> getAll(){
         return subjectResptory.findAll();
@@ -53,6 +58,19 @@ public class SubjectService {
         }
         return teacherRespoitry.findByIdEquals(subject.getTeacher().getId());
     }
+
+    public List<StudentDTO> studentList(Integer couseId){
+        Subject subject=subjectResptory.findByIdEquals(couseId);
+        List<Student> students=studentRespotry.findBySubjectSet(subject);
+        List<StudentDTO> studentDTOS=new ArrayList<>();
+        for (Student student:students){
+            studentDTOS.add(new StudentDTO(student.getId(),student.getName(),student.getMajor(),student.getAge()));
+        }
+
+        return studentDTOS;
+    }
+
+
 
 
 

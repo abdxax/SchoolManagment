@@ -1,6 +1,5 @@
 package com.example.schoolmanagement.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -11,23 +10,20 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "subject")
+@Table(name = "student")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Subject {
+public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotEmpty(message = "The name can not be null")
     private String name;
-    private Integer hours;
-    @ManyToOne
-    @JoinColumn(name = "teacher_id",referencedColumnName = "id")
-    @JsonIgnore
-    private  Teacher teacher;
-    @ManyToMany
-    @JsonIgnore
-    private List<Student> students;
+    @NotEmpty(message = "the majer can not null")
+    @Column(columnDefinition = "varchar(50) not null")
+    private String major;
+    private Integer age;
+    @ManyToMany(cascade = CascadeType.ALL,mappedBy = "students")
+    private List<Subject> subjectSet;
 
 }

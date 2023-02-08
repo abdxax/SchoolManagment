@@ -1,7 +1,10 @@
 package com.example.schoolmanagement.controller;
 
+import com.example.schoolmanagement.DTO.StudentDTO;
+import com.example.schoolmanagement.model.Student;
 import com.example.schoolmanagement.model.Subject;
 import com.example.schoolmanagement.model.Teacher;
+import com.example.schoolmanagement.service.StudentService;
 import com.example.schoolmanagement.service.SubjectService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +19,7 @@ import java.util.List;
 public class SubjectController {
 
     private final SubjectService subjectService;
+    private final StudentService studentService;
     @GetMapping("/getAll")
     public List<Subject> getAll(){
         return subjectService.getAll();
@@ -47,4 +51,11 @@ public class SubjectController {
         Teacher teacher=subjectService.teacher(id);
         return ResponseEntity.status(200).body(teacher.getName());
     }
+    @GetMapping("/getStudents/{subjectId}")
+    public ResponseEntity getStudent(@PathVariable Integer subjectId){
+        List<StudentDTO> students=subjectService.studentList(subjectId);
+        return ResponseEntity.status(200).body(students);
+    }
+
+
 }
